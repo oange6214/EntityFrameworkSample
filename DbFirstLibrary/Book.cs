@@ -9,7 +9,7 @@ public partial class Book
 
     public string Title { get; set; } = null!;
 
-    public long YearOfPubliction { get; set; }
+    public long YearOfPublication { get; set; }
 
     public long AuthorId { get; set; }
 

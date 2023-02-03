@@ -4,6 +4,6 @@ public partial class Book
 {
     public override string ToString()
     {
-        return $"{Title} {YearOfPubliction}";
+        return $"{Title} {YearOfPublication}";
     }
 }
