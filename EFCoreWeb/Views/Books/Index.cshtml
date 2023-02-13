@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BookLibrary.Book>
+﻿@model IEnumerable<EFCoreWeb.Models.BookModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.YearOfPublication)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Author.Name)
+                @Html.DisplayFor(modelItem => item.Author)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

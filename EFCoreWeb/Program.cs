@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionString = builder.Configuration.GetValue<string>("ConnectionStrings:BooksLibrary:SQLite");
+string connectionString = builder.Configuration.GetValue<string>("ConnectionStrings:BooksLibrary:SQLServer");
 
-builder.Services.AddDbContext<BooksContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<BooksContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -20,7 +20,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+ 
 app.UseRouting();
 
 app.UseAuthorization();

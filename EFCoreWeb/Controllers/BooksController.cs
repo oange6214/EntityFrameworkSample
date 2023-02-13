@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookLibrary;
+using EFCoreWeb.Models;
 
-namespace EFCoreWeb.Views
+namespace EFCoreWeb.Controllers
 {
     public class BooksController : Controller
     {
@@ -21,12 +22,14 @@ namespace EFCoreWeb.Views
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var books = await _context.Books.Include(b => b.Author).ToListAsync();
+            //var books = await _context.Books
+            //    .Include(b => b.Author)
+            //    .Select(b => new BookModel(b))
+            //    .ToListAsync();
 
-            foreach(var book in books)
-            {
-                _context.Entry(book).Reference(book => book.Author).Load();
-            }
+            var books = await _context.Books
+                .ToModel()
+                .ToListAsync();
 
             return View(books);
         }
@@ -40,7 +43,9 @@ namespace EFCoreWeb.Views
             }
 
             var book = await _context.Books
+                .ToModel()
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (book == null)
             {
                 return NotFound();
@@ -60,7 +65,7 @@ namespace EFCoreWeb.Views
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,YearOfPublication")] Book book)
+        public async Task<IActionResult> Create([Bind("Id,Title,YearOfPublication,StyleOfBook")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +97,7 @@ namespace EFCoreWeb.Views
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,YearOfPublication")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,YearOfPublication,StyleOfBook")] Book book)
         {
             if (id != book.Id)
             {
@@ -154,14 +159,14 @@ namespace EFCoreWeb.Views
             {
                 _context.Books.Remove(book);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
         {
-          return _context.Books.Any(e => e.Id == id);
+            return _context.Books.Any(e => e.Id == id);
         }
     }
 }

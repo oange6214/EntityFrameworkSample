@@ -162,19 +162,22 @@ return authors;
 
 
 {
-    //IConfiguration config = new ConfigurationBuilder()
-    //    .AddJsonFile("appsettings.json")
-    //    .Build();
+    IConfiguration config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build();
 
-    //var options = new DbContextOptionsBuilder<BooksContext>()
-    //.UseSqlServer(config.GetConnectionString("BooksLibrary:SQLServer"))
-    //.Options;
+    var options = new DbContextOptionsBuilder<BooksContext>()
+        .UseSqlServer(config.GetConnectionString("BooksLibrary:SQLServer"))
+        .Options;
 
-    //using var db = new BooksContext(options);
+    using var db = new BooksContext(options);
+
+    db.Database.EnsureDeleted();
+    db.Database.EnsureCreated();
 
     //var authors = CreateFakeData();
 
     //db.Authors.AddRange(authors);
 
-    //db.SaveChanges();
+    db.SaveChanges();
 }
